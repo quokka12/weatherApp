@@ -1,5 +1,13 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:http/http.dart' as http_pk;
-import 'dart:convert'; // jsonDcode 사용 가능
+import 'dart:convert';
+
+import 'package:weatherapp/my_text.dart'; // jsonDcode 사용 가능
 
 class Network {
   late final String url; // 날씨정보
@@ -18,6 +26,19 @@ class Network {
       return parsingData;
     } else {
       // 예외상황 처리
+      Get.dialog(AlertDialog(
+        title: MyText.bold('날씨 서버 접속 오류', MyText.TITLE3, Colors.black87),
+        content: MyText.normal(
+            '서버에 접속하지 못했습니다.\n어플을 다시 실행해주세요.', MyText.BODY, Colors.black87),
+        actions: [
+          TextButton(
+              onPressed: () {
+                SystemNavigator.pop();
+                exit(0);
+              },
+              child: MyText.normal('확인', MyText.BODY, Colors.black87))
+        ],
+      ));
     }
   } // ...getJsonData()
 
@@ -30,6 +51,19 @@ class Network {
       return parsingData;
     } else {
       // 예외상황 처리
+      Get.dialog(AlertDialog(
+        title: MyText.bold('날씨 서버 접속 오류', MyText.TITLE3, Colors.black87),
+        content: MyText.normal(
+            '서버에 접속하지 못했습니다.\n어플을 다시 실행해주세요.', MyText.BODY, Colors.black87),
+        actions: [
+          TextButton(
+              onPressed: () {
+                SystemNavigator.pop();
+                exit(0);
+              },
+              child: MyText.normal('확인', MyText.BODY, Colors.black87))
+        ],
+      ));
     }
   } // ...getAirData()
 }

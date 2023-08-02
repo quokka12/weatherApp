@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 ThemeData theme() {
-  DateTime dt = DateTime.now();
+  // 글씨체 설정.
   return ThemeData(
     fontFamily: "nanumSquareNeo",
   );

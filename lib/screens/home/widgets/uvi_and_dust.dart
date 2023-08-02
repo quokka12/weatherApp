@@ -20,6 +20,8 @@ List<Color> typicalColors = [
   Color(0xffEF3F69)
 ];
 
+/// 자외선과 미세먼지 정도를 알려주는 위젯
+/// 마지막 수정 : 2023. 8. 2.
 Widget uviAndDustWidget() {
   return Padding(
     padding: EdgeInsets.only(
@@ -36,34 +38,47 @@ Widget uviAndDustWidget() {
   );
 }
 
+/// 자외선 위젯
+/// 마지막 수정 : 2023. 8. 2.
 Widget uviHelper() {
   var uvi = 0;
+
+  // uvi가 0이 아닐 때는 double타입이 때문에, 따로 설정해줘야한다.(0일 때는 정수)
   if (Get.arguments['weatherData']['current']['uvi'] != 0) {
     uvi = Get.arguments['weatherData']['current']['uvi'];
   }
-  Color resultColor = typicalColors[0];
-  String resultExpression = '';
-  String resultWords = '';
+
+  // 결과에 따른 배경색상, 캐릭터 표정, 표현하는 말을 저장하는 변수들
+  Color resultColor = typicalColors[0]; // 배경색상 저장
+  String resultExpression = ''; // 캐릭터 표정
+  String resultWords = ''; // 표현하는 말
+
+  // uvi정도에 따른 결과값을 표현하기 위해 if문으로 나눔.
+  // 2 이하 : 좋음
   if (uvi <= 2) {
     resultColor = typicalColors[0];
     resultExpression = expression[0];
     resultWords = words[0];
   }
+  // 3 ~ 5 : 보통
   if (uvi >= 3 && uvi <= 5) {
     resultColor = typicalColors[1];
     resultExpression = expression[1];
     resultWords = words[1];
   }
+  // 6 ~ 7 : 나쁨
   if (uvi >= 6 && uvi <= 7) {
     resultColor = typicalColors[2];
     resultExpression = expression[2];
     resultWords = words[2];
   }
-  if (uvi > 7) {
+  // 8 이상 : 매우 나쁨
+  if (uvi >= 8) {
     resultColor = typicalColors[2];
     resultExpression = expression[2];
     resultWords = words[3];
   }
+
   return Container(
     alignment: Alignment.center,
     decoration: BoxDecoration(
@@ -96,31 +111,41 @@ Widget uviHelper() {
   );
 }
 
+/// 미세먼지 위젯
+/// 마지막 수정 : 2023. 8. 2.
 Widget dustHelper() {
+  // aqi : 대기 상태를 뜻함
   int aqi = Get.arguments['airData']['list'][0]['main']['aqi'];
-  Color resultColor = typicalColors[0];
-  String resultExpression = '';
-  String resultWords = '';
-  if (aqi <= 1) {
-    resultColor = typicalColors[0];
-    resultExpression = expression[0];
-    resultWords = words[0];
+
+  // 결과에 따른 배경색상, 캐릭터 표정, 표현하는 말을 저장하는 변수들
+  Color resultColor = typicalColors[0]; // 배경색상 저장
+  String resultExpression = ''; // 캐릭터 표정
+  String resultWords = ''; // 표현하는 말
+
+  // aqi -> 1 : 좋음, 2 ~ 3 : 보통, 4 : 나쁨, 5 : 매우 나쁨.
+  switch (aqi) {
+    case 1:
+      resultColor = typicalColors[0];
+      resultExpression = expression[0];
+      resultWords = words[0];
+      break;
+    case 2:
+    case 3:
+      resultColor = typicalColors[1];
+      resultExpression = expression[1];
+      resultWords = words[1];
+      break;
+    case 4:
+      resultColor = typicalColors[2];
+      resultExpression = expression[2];
+      resultWords = words[2];
+      break;
+    case 5:
+      resultColor = typicalColors[2];
+      resultExpression = expression[2];
+      resultWords = words[3];
   }
-  if (aqi == 2 || aqi == 3) {
-    resultColor = typicalColors[1];
-    resultExpression = expression[1];
-    resultWords = words[1];
-  }
-  if (aqi == 4) {
-    resultColor = typicalColors[2];
-    resultExpression = expression[2];
-    resultWords = words[2];
-  }
-  if (aqi == 5) {
-    resultColor = typicalColors[2];
-    resultExpression = expression[2];
-    resultWords = words[3];
-  }
+
   return Container(
     alignment: Alignment.center,
     decoration: BoxDecoration(
