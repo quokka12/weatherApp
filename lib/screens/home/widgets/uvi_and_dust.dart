@@ -41,11 +41,13 @@ Widget uviAndDustWidget() {
 /// 자외선 위젯
 /// 마지막 수정 : 2023. 8. 2.
 Widget uviHelper() {
-  var uvi = 0;
+  var uvi;
 
   // uvi가 0이 아닐 때는 double타입이 때문에, 따로 설정해줘야한다.(0일 때는 정수)
   if (Get.arguments['weatherData']['current']['uvi'] != 0) {
     uvi = Get.arguments['weatherData']['current']['uvi'];
+  } else {
+    uvi = 0;
   }
 
   // 결과에 따른 배경색상, 캐릭터 표정, 표현하는 말을 저장하는 변수들
